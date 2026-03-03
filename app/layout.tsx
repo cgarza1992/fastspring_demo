@@ -30,9 +30,17 @@ export default function RootLayout({
       >
         {children}
         <Script
+          id="fsc-api-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `window.onFSData = function(data) { window.__fsData = data; document.dispatchEvent(new CustomEvent('fs:data', { detail: data })); };`
+          }}
+        />
+        <Script
             id="fsc-api"
             src="https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js"
             data-storefront={process.env.NEXT_PUBLIC_FASTSPRING_STOREFRONT}
+            data-data-callback="onFSData"
             strategy="afterInteractive"
           />
       </body>
