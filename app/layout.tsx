@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import  Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Script
+            id="fsc-api"
+            src="https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js"
+            data-storefront={process.env.NEXT_PUBLIC_FASTSPRING_STOREFRONT}
+            strategy="afterInteractive"
+          />
       </body>
     </html>
   );
