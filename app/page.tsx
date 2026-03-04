@@ -6,12 +6,16 @@ import Image from "next/image";
 declare global {
   interface Window {
     fastspring: {
-      getProduct: (productPath: string, callback: (data:Product) => void) => void;
+      builder: {
+        add: (productPath: string) => void;
+        checkout: () => void;
+      }
     }
   }
 }
 
 interface Product {
+  product: string;
   display: {en: string};
   description?: { summary: { en: string } };
   pricing?: {
@@ -31,6 +35,19 @@ export default function Home() {
 
   // Track if we are still fetching data.
   const [loading, setLoading] = useState(true);
+
+
+  const handleBuyNow = (productPath: string) => {
+    console.log('[SBL] Buy Now clicked for:', productPath);
+
+    if(window.fastspring && window.fastspring.builder) {
+      window.fastspring.builder.add(productPath);
+      // Wait 200ms before opening checkout
+      setTimeout(() => {
+        window.fastspring.builder.checkout();
+      }, 200);
+    }
+  }
 
   useEffect(() => {
     const handler = (e: CustomEvent) => {
@@ -90,16 +107,26 @@ export default function Home() {
       {loading && <p>Loading products...</p>}
       <div className="grid grid-cols-3 gap-5 mt-5">
         {products.map((product, index) => (
-          <div key={index} className="border border-gray-300 p-5 rounded-lg">
-            <h2>{product.display.en}</h2>
-            <p className="text-gray-600">{product.description?.summary?.en}</p>
-            <p className="font-bold text-lg">
-              ${product.pricing?.price?.USD || 'N/A'}/month
-            </p>
-            <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
-              Buy Now
-            </button>
-          </div>
+        <div key={index} className="border border-gray-300 p-5 rounded-lg flex flex-col h-full">
+          <Image 
+            src="https://placehold.co/300x200?text=Product" 
+            alt={product.display.en}
+            width={300}
+            height={200}
+            unoptimized
+            className="w-full h-48 object-cover rounded mb-4"
+          />
+          <h2>{product.display.en}</h2>
+          <p className="text-gray-600 flex-grow">{product.description?.summary?.en}</p>
+          <p className="font-bold text-lg">
+            ${product.pricing?.price?.USD || 'N/A'}/month
+          </p>
+          <button
+            onClick={() => handleBuyNow(product.product)}
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">
+            Buy Now
+          </button>
+        </div>
         ))}
       </div>
       {fastspringData && (
