@@ -38,17 +38,28 @@ export async function POST(request: NextRequest) {
     );
 
     } else {
-        const data = JSON.parse(rawBody);
+        const body = JSON.parse(rawBody);
+        
+        // FastSpring sends events in an array
+        if (!body.events || !Array.isArray(body.events)) {
+            return NextResponse.json(
+                { error: 'Invalid webhook format - no events array' },
+                { status: 400 }
+            );
+        }
 
-        const event = addEvent(data.eventType || 'webhook', data);
+        // Store each event from the webhook
+        const storedEvents = [];
+        for (const fsEvent of body.events) {
+            console.log('Storing FastSpring event:', fsEvent.type);
+            const event = addEvent(fsEvent.type, fsEvent.data);
+            storedEvents.push(event);
+        }
 
         return NextResponse.json({
             success: true,
-            eventId: event.id 
-        },
-            {
-                status: 200
-            }
-        );
+            eventsStored: storedEvents.length,
+            eventIds: storedEvents.map(e => e.id)
+        }, { status: 200 });
     }
 }
