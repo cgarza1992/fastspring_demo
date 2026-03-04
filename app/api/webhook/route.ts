@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
 
     // Step 3: Validate Signature
     const secret = process.env.FASTSPRING_WEBHOOK_SECRET;
-    const signature = request.headers.get('X-Signature');
     
     console.log('Secret exists:', !!secret);
     console.log('Signature header:', signature ? 'present' : 'missing');
