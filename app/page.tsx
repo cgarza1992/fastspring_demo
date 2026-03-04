@@ -12,8 +12,13 @@ declare global {
 }
 
 interface Product {
-  display: string;
-  price: string;
+  display: {en: string};
+  description?: { summary: { en: string } };
+  pricing?: {
+    price: {
+      USD: number;
+    };
+  };
   image?: string;
 }
 
@@ -22,7 +27,7 @@ export default function Home() {
   const [fastspringData, setFastspringData] = useState<Record<string, unknown> | null>(null);
 
   // Grab our product data and save it into state.
-  const [product, setProduct] = useState<Product | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
 
   // Track if we are still fetching data.
   const [loading, setLoading] = useState(true);
@@ -55,11 +60,22 @@ export default function Home() {
 
   useEffect(() => {
     // Fetch the product from fastsprings API.
-    fetch("/api/products/devmetrics-proj")
+    fetch("/api/products/")
       .then((res) => res.json())
       .then((data) => {
-        console.log("[API] Product data:", data);
-        setProduct(data);
+        console.log("[API] Products data:", data.products);
+
+        // Fetch full details for each product path.
+        const productPromises = data.products.map((path: string) => 
+          fetch(`/api/products/${path}`).then((res) => res.json())
+        );
+
+        return Promise.all(productPromises);
+      })
+      .then((productDetails) => {
+        //Extract products array from each response
+        const allProducts = productDetails.flatMap((response) => response.products || []);
+        setProducts(allProducts);
         setLoading(false);
       })
       .catch((error) => {
@@ -71,15 +87,21 @@ export default function Home() {
   return (
     <main>
       <h1>FastSpring Demo</h1>
-
-      {loading && <p>Loading product...</p>}
-      {product && (
-        <div>
-          <h2>{product.display}</h2>
-          <p>Price: {product.price}</p>
-          {product.image && <Image src={product.image} alt={product.display} width={200} height={200} />}
-        </div>
-      )}
+      {loading && <p>Loading products...</p>}
+      <div className="grid grid-cols-3 gap-5 mt-5">
+        {products.map((product, index) => (
+          <div key={index} className="border border-gray-300 p-5 rounded-lg">
+            <h2>{product.display.en}</h2>
+            <p className="text-gray-600">{product.description?.summary?.en}</p>
+            <p className="font-bold text-lg">
+              ${product.pricing?.price?.USD || 'N/A'}/month
+            </p>
+            <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+              Buy Now
+            </button>
+          </div>
+        ))}
+      </div>
       {fastspringData && (
         <div>
           <h3>Checkout Data:</h3>
