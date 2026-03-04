@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import ProductsSection from "./components/ProductsSection";
+import FeaturesSection from "./components/FeaturesSection";
+import Footer from "./components/Footer";
+import SuccessNotification from "./components/SuccessNotification";
 
 declare global {
   interface Window {
@@ -52,7 +57,13 @@ export default function Home() {
   useEffect(() => {
     const handler = (e: CustomEvent) => {
       console.log("[FastSpring] checkout event:", e.detail);
-      setFastspringData(e.detail);
+      // Only set data if it contains order information
+      if (e.detail && typeof e.detail === 'object' && ('order' in e.detail || 'reference' in e.detail)) {
+        setFastspringData(e.detail);
+        // Auto-hide notification after 5 seconds
+        const timer = setTimeout(() => setFastspringData(null), 5000);
+        return () => clearTimeout(timer);
+      }
     };
     document.addEventListener("fs:data", handler as EventListener);
     return () => document.removeEventListener("fs:data", handler as EventListener);
@@ -102,39 +113,13 @@ export default function Home() {
   },[]);
 
   return (
-    <main>
-      <h1>FastSpring Demo</h1>
-      {loading && <p>Loading products...</p>}
-      <div className="grid grid-cols-3 gap-5 mt-5">
-        {products.map((product, index) => (
-        <div key={index} className="border border-gray-300 p-5 rounded-lg flex flex-col h-full">
-          <Image 
-            src="https://placehold.co/300x200?text=Product" 
-            alt={product.display.en}
-            width={300}
-            height={200}
-            unoptimized
-            className="w-full h-48 object-cover rounded mb-4"
-          />
-          <h2>{product.display.en}</h2>
-          <p className="text-gray-600 flex-grow">{product.description?.summary?.en}</p>
-          <p className="font-bold text-lg">
-            ${product.pricing?.price?.USD || 'N/A'}/month
-          </p>
-          <button
-            onClick={() => handleBuyNow(product.product)}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">
-            Buy Now
-          </button>
-        </div>
-        ))}
-      </div>
-      {fastspringData && (
-        <div>
-          <h3>Checkout Data:</h3>
-          {/* <pre>{JSON.stringify(fastspringData, null, 2)}</pre> */}
-        </div>
-      )}
+    <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+      <Header />
+      <Hero />
+      <ProductsSection products={products} loading={loading} onBuyNow={handleBuyNow} />
+      <FeaturesSection />
+      <Footer />
+      <SuccessNotification show={fastspringData !== null} />
     </main>
   );
 }
