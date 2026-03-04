@@ -6,35 +6,26 @@ export async function POST(request: NextRequest) {
     // step 1: Get raw body.
     const rawBody = await request.text();
 
-    console.log('Webhook received and validated. Raw body:', rawBody);
-
     // Step 2: Get signature from header
     const signature = request.headers.get('x-fs-signature');
 
     // Step 3: Validate Signature
     const secret = process.env.FASTSPRING_WEBHOOK_SECRET;
     
-    console.log('Secret exists:', !!secret);
-    console.log('Signature header:', signature ? 'present' : 'missing');
-    
     // If signature present, validate it
     if (signature && secret) {
-        // Create HMAC and compute signature (base64 encoded, not hex)
+        // Create HMAC and compute signature (base64 encoded)
         const computedSignature = createHmac('sha256', secret)
             .update(rawBody)
             .digest()
             .toString('base64');
 
         if (signature !== computedSignature) {
-            console.log('Signature validation failed');
             return NextResponse.json(
                 { error: 'Invalid signature' },
                 { status: 401 }
             );
         }
-        console.log('Signature validation passed');
-    } else if (!signature) {
-        console.log('No x-fs-signature header present - skipping validation (acceptable for test environment)');
     }
     
     // Parse and store the event
@@ -52,7 +43,6 @@ export async function POST(request: NextRequest) {
         // Store each event from the webhook
         const storedEvents = [];
         for (const fsEvent of body.events) {
-            console.log('Storing FastSpring event:', fsEvent.type);
             const event = addEvent(fsEvent.type, fsEvent.data);
             storedEvents.push(event);
         }
