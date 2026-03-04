@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProductsSection from "./components/ProductsSection";
 import FeaturesSection from "./components/FeaturesSection";
+import EventLog from "./components/EventLog";
 import Footer from "./components/Footer";
 import SuccessNotification from "./components/SuccessNotification";
 
@@ -118,6 +119,9 @@ export default function Home() {
       <Hero />
       <ProductsSection products={products} loading={loading} onBuyNow={handleBuyNow} />
       <FeaturesSection />
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <EventLog />
+      </div>
       <Footer />
       <SuccessNotification show={fastspringData !== null} />
     </main>
