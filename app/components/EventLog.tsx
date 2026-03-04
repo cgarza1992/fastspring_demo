@@ -11,29 +11,27 @@ interface Event {
 
 export default function EventLog() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await fetch('/api/events?limit=20');
         const result = await response.json();
-        setEvents(result.events);
-        setLoading(false);
+        setEvents(result.events || []);
       } catch (error) {
         console.error('Failed to fetch events:', error);
-        setLoading(false);
+        // Keep existing events on fetch failure
       }
     };
 
+    // Fetch immediately on mount
     fetchEvents();
+
+    // Then poll every 5 seconds
     const interval = setInterval(fetchEvents, 5000);
+    
     return () => clearInterval(interval);
   }, []);
-
-  if (loading) {
-    return <div className="text-center py-8 text-gray-400">Loading events...</div>;
-  }
 
   return (
     <section className="py-12 px-4 bg-slate-900/50 border border-slate-800 rounded-lg">
