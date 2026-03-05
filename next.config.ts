@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://sbl.onfastspring.com https://cdn.onfastspring.com; frame-src 'self' https://*.onfastspring.com https://sbl.onfastspring.com; connect-src 'self' https://*.onfastspring.com https://api.onfastspring.com; style-src 'self' 'unsafe-inline' https://cdn.onfastspring.com; img-src 'self' data: https: https://cdn.onfastspring.com; font-src 'self' data: https://cdn.onfastspring.com; form-action 'self' https://*.onfastspring.com; child-src 'self' https://*.onfastspring.com; allow-top-navigation",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://sbl.onfastspring.com https://cdn.onfastspring.com; frame-src 'self' https://*.onfastspring.com https://sbl.onfastspring.com; connect-src 'self' https://*.onfastspring.com https://api.onfastspring.com; style-src 'self' 'unsafe-inline' https://sbl.onfastspring.com https://cdn.onfastspring.com; img-src 'self' data: https: https://cdn.onfastspring.com https://sbl.onfastspring.com; font-src 'self' data: https://cdn.onfastspring.com; form-action 'self' https://*.onfastspring.com; child-src 'self' https://*.onfastspring.com",
           },
         ],
       },
