@@ -1,22 +1,18 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import Script from 'next/script';
 
-const EmbeddedCheckout = dynamic(
-  () => Promise.resolve(() => (
+export default function StorePage() {
+  return (
     <>
-      <script
+      <Script
         id="fsc-api"
         src="https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js"
         type="text/javascript"
-        data-storefront="fastspringpoc.test.onfastspring.com/embedded-store-1">
-      </script>
+        data-storefront="fastspringpoc.test.onfastspring.com/embedded-store-1"
+        strategy="lazyOnload"
+      />
       <div id="fsc-embedded-checkout-container"></div>
     </>
-  )),
-  { ssr: false }
-);
-
-export default function StorePage() {
-  return <EmbeddedCheckout />;
+  );
 }
