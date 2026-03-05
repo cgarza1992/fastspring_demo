@@ -119,6 +119,23 @@ export default function Home() {
       <Hero />
       <ProductsSection products={products} loading={loading} onBuyNow={handleBuyNow} />
       <FeaturesSection />
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <h2 className="text-2xl font-bold mb-6">Embedded Checkout Tests</h2>
+        <div className="grid md:grid-cols-3 gap-4 mb-12">
+          <a href="/embedded-test.html" className="p-4 bg-slate-800 border border-slate-700 rounded hover:bg-slate-700 transition">
+            <h3 className="font-semibold mb-2">Test Store 1</h3>
+            <p className="text-sm text-gray-400">embedded-store-1</p>
+          </a>
+          <a href="/embedded-test-2.html" className="p-4 bg-slate-800 border border-slate-700 rounded hover:bg-slate-700 transition">
+            <h3 className="font-semibold mb-2">Test Store 2</h3>
+            <p className="text-sm text-gray-400">embedded-store-2</p>
+          </a>
+          <a href="/embedded-test-3.html" className="p-4 bg-slate-800 border border-slate-700 rounded hover:bg-slate-700 transition">
+            <h3 className="font-semibold mb-2">Test Store 3</h3>
+            <p className="text-sm text-gray-400">embedded-store-3</p>
+          </a>
+        </div>
+      </div>
       <div className="max-w-6xl mx-auto px-4 py-8">
         <EventLog />
       </div>
