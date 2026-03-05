@@ -1,7 +1,9 @@
 'use client';
 
-export default function StorePage() {
-  return (
+import dynamic from 'next/dynamic';
+
+const EmbeddedCheckout = dynamic(
+  () => Promise.resolve(() => (
     <>
       <script
         id="fsc-api"
@@ -11,5 +13,10 @@ export default function StorePage() {
       </script>
       <div id="fsc-embedded-checkout-container"></div>
     </>
-  );
+  )),
+  { ssr: false }
+);
+
+export default function StorePage() {
+  return <EmbeddedCheckout />;
 }
