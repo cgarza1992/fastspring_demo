@@ -1,22 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
-
 export default function StorePage() {
-  useEffect(() => {
-    if (document.getElementById('fsc-api')) {
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.id = 'fsc-api';
-    script.src = 'https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js';
-    script.type = 'text/javascript';
-    script.setAttribute('data-storefront', 'fastspringpoc.test.onfastspring.com/embedded-store-1');
-    document.head.appendChild(script);
-  }, []);
-
   return (
-    <div id="fsc-embedded-checkout-container"></div>
+    <>
+      <script
+        id="fsc-api"
+        src="https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js"
+        type="text/javascript"
+        data-storefront="fastspringpoc.test.onfastspring.com/embedded-store-1">
+      </script>
+      <div id="fsc-embedded-checkout-container"></div>
+    </>
   );
 }
