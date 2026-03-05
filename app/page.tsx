@@ -74,7 +74,7 @@ export default function Home() {
     const script = document.createElement('script');
 
     // Point to FastSpring's SBL library. 
-    script.src = 'https://sbl.onfastspring.com/sbl/1.0.3/fastspring-builder.min.js';
+    script.src = 'https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js';
 
     // Load our script asynchronously.
     script.async = true;
