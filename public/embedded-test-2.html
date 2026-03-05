@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="allow-top-navigation; script-src 'unsafe-inline' https://sbl.onfastspring.com https://cdn.onfastspring.com; style-src 'unsafe-inline' https://sbl.onfastspring.com https://cdn.onfastspring.com; frame-src https://*.onfastspring.com; connect-src https://*.onfastspring.com https://api.onfastspring.com;">
     <title>FastSpring Embedded Checkout Test - Store 2</title>
     <style>
         body {
@@ -26,22 +25,40 @@
             border-radius: 8px;
             padding: 20px;
         }
+        #checkout-frame {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>FastSpring Embedded Checkout - Test Store 2</h1>
-        <p>Loading embedded checkout below:</p>
+        <p>Loading embedded checkout in sandbox iframe below:</p>
         
-        <script
-            id="fsc-api"
-            src="https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js"
-            type="text/javascript"
-            data-storefront="fastspringpoc.test.onfastspring.com/embedded-store-2">
-        </script>
-        
-        <!-- FastSpring embedded checkout container -->
-        <div id="fsc-embedded-checkout-container" style="min-height: 600px;"></div>
+        <!-- Iframe with sandbox attributes to allow top-level navigation -->
+        <iframe 
+            id="checkout-frame"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation allow-top-navigation-by-user-activation"
+            srcdoc="<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+</head>
+<body style='margin: 0; padding: 20px;'>
+    <script
+        id='fsc-api'
+        src='https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js'
+        type='text/javascript'
+        data-storefront='fastspringpoc.test.onfastspring.com/embedded-store-2'>
+    </script>
+    <div id='fsc-embedded-checkout-container'></div>
+</body>
+</html>">
+        </iframe>
     </div>
 </body>
 </html>
