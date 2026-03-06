@@ -15,6 +15,15 @@ declare global {
       builder: {
         add: (productPath: string) => void;
         checkout: () => void;
+        reset: () => void;
+        remove: (productPath: string) => void;
+        recognize: () => void;
+        recognizeRecipients: () => void;
+        clean: (key: string) => void;
+        promo: (code: string) => void;
+        country: (code: string) => void;
+        language: (code: string) => void;
+        tag: (key: string, value: string | number) => void;
       }
     }
   }

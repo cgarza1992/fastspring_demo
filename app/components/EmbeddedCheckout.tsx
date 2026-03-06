@@ -11,46 +11,27 @@ interface EmbeddedCheckoutProps {
  * EmbeddedCheckout Component
  * 
  * Renders a FastSpring embedded checkout container.
- * The SBL script must be loaded globally (in layout.tsx) for this to work.
+ * Relies on the global SBL script loaded in layout.tsx
  */
 export default function EmbeddedCheckout({ storefront, productPath = "devmetrics-pro" }: EmbeddedCheckoutProps) {
   useEffect(() => {
-    // Check if SBL script already exists
-    let existingScript = document.getElementById("fsc-api");
-    
-    // If script exists and FastSpring is loaded, just reinitialize the cart
-    if (existingScript && window.fastspring && window.fastspring.builder) {
-      console.log("[SBL] Script already loaded, reinitializing cart");
-      window.fastspring.builder.reset();
-      window.fastspring.builder.add(productPath);
-      return;
-    }
-
-    // Create and inject the SBL script with the specific storefront
-    const script = document.createElement("script");
-    script.id = "fsc-api";
-    script.src = "https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js";
-    script.type = "text/javascript";
-    script.setAttribute("data-storefront", storefront);
-    script.async = true;
-
-    script.onload = () => {
-      console.log("[SBL] Embedded checkout script loaded for storefront:", storefront);
-      
-      // Add product on load to trigger embedded checkout
+    // Wait for FastSpring to be available, then initialize
+    let attempts = 0;
+    const checkInterval = setInterval(() => {
       if (window.fastspring && window.fastspring.builder) {
+        console.log("[SBL] FastSpring available, adding product:", productPath);
         window.fastspring.builder.reset();
         window.fastspring.builder.add(productPath);
-        console.log("[SBL] Added product to cart:", productPath);
+        clearInterval(checkInterval);
+      } else if (attempts > 50) {
+        console.warn("[SBL] FastSpring did not load after 5 seconds");
+        clearInterval(checkInterval);
       }
-    };
+      attempts++;
+    }, 100);
 
-    script.onerror = () => {
-      console.error("[SBL] Failed to load embedded checkout script");
-    };
-
-    document.head.appendChild(script);
-  }, [storefront, productPath]);
+    return () => clearInterval(checkInterval);
+  }, [productPath]);
 
   return (
     <div className="w-full">

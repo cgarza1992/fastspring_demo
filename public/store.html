@@ -38,6 +38,17 @@
         <div id="fsc-embedded-checkout-container">
 
         </div>
+
+        <script>
+            // Add product on load, otherwise the embedded checkout will not load
+            window.addEventListener('load', function() {
+                if (window.fastspring && window.fastspring.builder) {
+                    fastspring.builder.reset();
+                    fastspring.builder.add("devmetrics-pro");
+                    console.log('Product added to cart');
+                }
+            });
+        </script>
     </div>
 </body>
 </html>
