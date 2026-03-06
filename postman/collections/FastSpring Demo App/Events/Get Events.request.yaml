@@ -1,0 +1,8 @@
+$kind: http-request
+name: Get Events
+method: GET
+url: '{{app_base_url}}/api/events'
+order: 1000
+queryParams:
+  - key: limit
+    value: '{{limit}}'

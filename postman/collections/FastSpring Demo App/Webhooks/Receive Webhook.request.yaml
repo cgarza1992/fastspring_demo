@@ -1,0 +1,14 @@
+$kind: http-request
+name: Receive Webhook
+method: POST
+url: '{{app_base_url}}/api/webhook'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: x-fs-signature
+    value: '{{webhook_signature}}'
+body:
+  type: json
+  content: |-
+    {"events": [{"type": "order.completed", "data": {}}]}

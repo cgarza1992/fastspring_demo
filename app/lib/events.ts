@@ -30,9 +30,11 @@ export function addEvent(type: string, data: Record<string, unknown>): WebhookEv
 
   // Add to beginning so newest events are first
   events.unshift(event);
+  console.log('[EventStore] Added event:', type, 'Total events now:', events.length);
 
   // Maintain max size limit by removing oldest events
   if (events.length > MAX_EVENTS) {
+    console.log('[EventStore] Max events reached, removing oldest');
     events = events.slice(0, MAX_EVENTS);
   }
 
@@ -46,7 +48,9 @@ export function addEvent(type: string, data: Record<string, unknown>): WebhookEv
  */
 export function getEvents( limit: number = 50): WebhookEvent[] {
     // Return items from 0 up to our designated limit.
-    return events.slice(0, limit );
+    const result = events.slice(0, limit );
+    console.log('[EventStore] getEvents called - Total stored:', events.length, 'Returning:', result.length);
+    return result;
 }
 
 /**

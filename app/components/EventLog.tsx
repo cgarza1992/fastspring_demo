@@ -17,23 +17,32 @@ export default function EventLog() {
       try {
         const response = await fetch('/api/events?limit=20');
         const result = await response.json();
+        console.log('[EventLog] Fetched events:', result.count, 'events from API');
+        console.log('[EventLog] Events:', result.events);
         // Only update if we actually got events back - don't wipe out state on empty response
-        if (result.events && Array.isArray(result.events)) {
+        if (result.events && Array.isArray(result.events) && result.events.length > 0) {
+          console.log('[EventLog] Updating state with', result.events.length, 'events');
           setEvents(result.events);
+        } else {
+          console.log('[EventLog] No events returned from API, keeping existing state');
         }
       } catch (error) {
-        console.error('Failed to fetch events:', error);
+        console.error('[EventLog] Failed to fetch events:', error);
         // Keep existing events on fetch failure
       }
     };
 
+    console.log('[EventLog] Component mounted, starting polling');
     // Fetch immediately on mount
     fetchEvents();
 
     // Then poll every 5 seconds
     const interval = setInterval(fetchEvents, 5000);
     
-    return () => clearInterval(interval);
+    return () => {
+      console.log('[EventLog] Component unmounting, stopping polling');
+      clearInterval(interval);
+    };
   }, []);
 
   return (

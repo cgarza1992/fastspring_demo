@@ -1,0 +1,5 @@
+$kind: http-request
+name: Debug Products
+method: GET
+url: '{{app_base_url}}/api/debug/products'
+order: 2000

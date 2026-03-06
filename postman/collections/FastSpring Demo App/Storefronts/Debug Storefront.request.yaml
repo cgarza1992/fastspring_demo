@@ -1,0 +1,5 @@
+$kind: http-request
+name: Debug Storefront
+method: GET
+url: '{{app_base_url}}/api/debug/storefronts/{{storefront_id}}'
+order: 2000

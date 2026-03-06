@@ -1,0 +1,12 @@
+$kind: collection
+name: FastSpring Demo App
+description: 'Local Next.js FastSpring demo app API routes running at localhost:3000'
+variables:
+  - key: app_base_url
+    value: 'http://localhost:3000'
+  - key: storefront_id
+    value: ''
+  - key: limit
+    value: '50'
+  - key: webhook_signature
+    value: ''
