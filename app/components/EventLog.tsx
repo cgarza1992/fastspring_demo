@@ -17,7 +17,10 @@ export default function EventLog() {
       try {
         const response = await fetch('/api/events?limit=20');
         const result = await response.json();
-        setEvents(result.events || []);
+        // Only update if we actually got events back - don't wipe out state on empty response
+        if (result.events && Array.isArray(result.events)) {
+          setEvents(result.events);
+        }
       } catch (error) {
         console.error('Failed to fetch events:', error);
         // Keep existing events on fetch failure
