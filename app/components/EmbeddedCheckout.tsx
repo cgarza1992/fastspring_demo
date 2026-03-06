@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 interface EmbeddedCheckoutProps {
   storefront: string;
+  productPath?: string;
 }
 
 /**
@@ -12,13 +13,16 @@ interface EmbeddedCheckoutProps {
  * Renders a FastSpring embedded checkout container.
  * The SBL script must be loaded globally (in layout.tsx) for this to work.
  */
-export default function EmbeddedCheckout({ storefront }: EmbeddedCheckoutProps) {
+export default function EmbeddedCheckout({ storefront, productPath = "devmetrics-pro" }: EmbeddedCheckoutProps) {
   useEffect(() => {
     // Check if SBL script already exists
-    const existingScript = document.getElementById("fsc-api");
+    let existingScript = document.getElementById("fsc-api");
     
-    if (existingScript) {
-      console.log("[SBL] Script already loaded");
+    // If script exists and FastSpring is loaded, just reinitialize the cart
+    if (existingScript && window.fastspring && window.fastspring.builder) {
+      console.log("[SBL] Script already loaded, reinitializing cart");
+      window.fastspring.builder.reset();
+      window.fastspring.builder.add(productPath);
       return;
     }
 
@@ -32,6 +36,13 @@ export default function EmbeddedCheckout({ storefront }: EmbeddedCheckoutProps) 
 
     script.onload = () => {
       console.log("[SBL] Embedded checkout script loaded for storefront:", storefront);
+      
+      // Add product on load to trigger embedded checkout
+      if (window.fastspring && window.fastspring.builder) {
+        window.fastspring.builder.reset();
+        window.fastspring.builder.add(productPath);
+        console.log("[SBL] Added product to cart:", productPath);
+      }
     };
 
     script.onerror = () => {
@@ -39,7 +50,7 @@ export default function EmbeddedCheckout({ storefront }: EmbeddedCheckoutProps) 
     };
 
     document.head.appendChild(script);
-  }, [storefront]);
+  }, [storefront, productPath]);
 
   return (
     <div className="w-full">
