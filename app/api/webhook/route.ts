@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         const storedEvents = [];
         for (const fsEvent of body.events) {
             console.log('[Webhook] Processing event:', fsEvent.type);
-            const event = addEvent(fsEvent.type, fsEvent.data);
+            const event = await addEvent(fsEvent.type, fsEvent.data);
             storedEvents.push(event);
         }
         console.log('[Webhook] Stored', storedEvents.length, 'events');

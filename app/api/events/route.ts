@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
     const limit = request.nextUrl.searchParams.get('limit');
 
     // Fetch events.
-    const events = getEvents(limit ? parseInt(limit): 50);
+    const events = await getEvents(limit ? parseInt(limit): 50);
     console.log('[API] GET /api/events - Returning', events.length, 'events (limit:', limit || 50, ')');
 
     return NextResponse.json({
