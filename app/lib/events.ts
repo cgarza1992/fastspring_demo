@@ -19,7 +19,7 @@ export async function addEvent(type: string, data: Record<string, unknown>): Pro
     const event = await prisma.webhookEvent.create({
       data: {
         type,
-        data,
+        data: JSON.parse(JSON.stringify(data)),
       },
     });
 
