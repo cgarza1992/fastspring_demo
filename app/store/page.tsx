@@ -59,7 +59,11 @@ export default function StorePage() {
   // Listen for localized pricing posted from the iframe's onFSData callback
   useEffect(() => {
     const handler = (event: MessageEvent) => {
+      if (event.data?.type === "FS_DATA_DEBUG") {
+        console.log("[StorePage] Raw onFSData:", JSON.stringify(event.data.data));
+      }
       if (event.data?.type === "FS_PRICES") {
+        console.log("[StorePage] Localized prices:", event.data.prices);
         setLocalizedPrices(event.data.prices);
       }
     };
@@ -126,9 +130,12 @@ export default function StorePage() {
             let fastspringReady = false;
 
             function onFSData(data) {
+                console.log('[Iframe] onFSData received:', JSON.stringify(data));
+                window.parent.postMessage({ type: 'FS_DATA_DEBUG', data: data }, '*');
                 if (!data || !data.groups) return;
                 const prices = {};
                 data.groups.forEach(function(group) {
+                    console.log('[Iframe] group:', JSON.stringify(group));
                     if (group.path && group.display && group.price !== undefined) {
                         prices[group.path] = {
                             price: group.display,
