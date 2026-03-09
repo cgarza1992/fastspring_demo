@@ -44,11 +44,12 @@ export async function GET(
           
           if (productResponse.ok) {
             const productData = await productResponse.json();
+            const p = productData.products?.[0];
             return {
-              path: productData.product,
-              name: productData.display?.en || productData.product,
-              price: productData.pricing?.price?.USD,
-              description: productData.description?.summary?.en,
+              path: p?.product,
+              name: p?.display?.en || p?.product,
+              price: p?.pricing?.price?.USD,
+              description: p?.description?.summary?.en,
             };
           } else {
             return {
