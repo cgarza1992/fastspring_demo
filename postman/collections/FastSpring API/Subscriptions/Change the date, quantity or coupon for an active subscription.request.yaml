@@ -1,0 +1,28 @@
+$kind: http-request
+url: https://api.fastspring.com/subscriptions/
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \  \"subscriptions\": [\r
+
+    \    {\r
+
+    \      \"subscription\": \"{subscription_id}\",\r
+
+    \      \"next\": \"2019-01-30\", \t\t\t\t     \t// Next charge date\r
+
+    \      \"end\": 0,  \t\t\t\t\t\t\t\t\t// Last charge date will be on or
+    before this date. 0 as unlimited subscription\r
+
+    \      \"quantity\": 2,\r
+
+    \      \"coupons\": [\"{coupon_id}\"]\r
+
+    \    }\r
+
+    \  ]\r
+
+    }"
+order: 5000

@@ -1,0 +1,31 @@
+$kind: http-request
+url: https://api.fastspring.com/subscriptions/
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \  \"subscriptions\": [\r
+
+    \    {\r
+
+    \      \"subscription\": \"{subscription_id}\",\r
+
+    \      \"addons\": [\r
+
+    \        {\r
+
+    \          \"product\": \"{subscription_addon_path}\",\r
+
+    \          \"quantity\": 0\r
+
+    \        }\r
+
+    \      ]\r
+
+    \    }\r
+
+    \  ]\r
+
+    }"
+order: 8000

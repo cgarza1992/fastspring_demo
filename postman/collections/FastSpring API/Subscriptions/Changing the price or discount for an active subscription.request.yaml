@@ -1,0 +1,43 @@
+$kind: http-request
+url: https://api.fastspring.com/subscriptions/
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \    \"subscriptions\":  [\r
+
+    \        {\r
+
+    \           \"subscription\":\"{subscription_id}\",\r
+
+    \           \"pricing\":{\r
+
+    \        \t\t\"price\": {\r
+
+    \            \t\t\"USD\":10\r
+
+    \            \t},                     \r
+
+    \            \t\"discount\":{\r
+
+    \                \t\"type\": \"amount\",\r
+
+    \                \t\"amount\": {\r
+
+    \                \t\t\"USD\":5\r
+
+    \                \t},\r
+
+    \                \t\"duration\": \"all\"\r
+
+    \            \t}\r
+
+    \        \t}\r
+
+    \    \t}\t\r
+
+    \    ]\r
+
+    }"
+order: 6000

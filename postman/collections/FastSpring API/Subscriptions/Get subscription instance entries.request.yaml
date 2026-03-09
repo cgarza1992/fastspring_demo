@@ -1,0 +1,7 @@
+$kind: http-request
+url: https://api.fastspring.com/subscriptions/{subscription_id}/entries
+method: GET
+body:
+  type: text
+  content: ""
+order: 3000

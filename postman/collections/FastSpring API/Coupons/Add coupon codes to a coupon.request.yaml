@@ -1,0 +1,14 @@
+$kind: http-request
+url: https://api.fastspring.com/coupons/{coupon_id}
+method: POST
+body:
+  type: text
+  content: |-
+    {
+    	"codes": [				// Array of coupon codes which trigger this discount
+    		"code4",
+    		"code5",
+    		"code6"
+    	]
+    }
+order: 3000

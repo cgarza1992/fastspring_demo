@@ -1,0 +1,71 @@
+$kind: http-request
+url: https://api.fastspring.com/orders
+method: POST
+body:
+  type: text
+  content: "{ \r
+
+    \   \"account\":\"{account_id}\",\t\t\t              // must have billing
+    method on file\r
+
+    \   \"coupon\":\"\",                         \t         // optional
+    couponID\r
+
+    \   \"tags\":{ \t\t\t\t\t\t\t\t\t\t// optional tags\r
+
+    \      \"tag1\":\"value1\"\r
+
+    \   },\r
+
+    \   \"currency\":\"USD\",\r
+
+    \   \"items\":[ \r
+
+    \      { \r
+
+    \         \"product\":\"{product_id}\",  \t\t\t\t// productID\r
+
+    \         \"quantity\":1,\r
+
+    \         \"pricing\":{ \r
+
+    \            \"trial\":0,                              // days\r
+
+    \            \"renew\":\"auto\",                         // or \"manual\",
+    \"opt-auto\", \"opt-manual\"\r
+
+    \            \"interval\":\"month\",                     // or \"adhoc\",
+    \"day\", \"week\", \"year\"\r
+
+    \            \"intervalLength\":1,                     // required if
+    \"intervral\" is specified and is not \"adhoc\"\r
+
+    \            \"quantityBehavior\":\"allow\",             // or \"lock\" or
+    \"hide\"\r
+
+    \            \"quantityDefault\":1,\r
+
+    \            \"price\":{ \r
+
+    \               \"USD\":14.95,                         // currency must be
+    enabled in the Store Settings\r
+
+    \               \"EUR\":10.99\r
+
+    \            }\r
+
+    \         },\r
+
+    \         \"attributes\":{ \r
+
+    \            \"ATTRIBUTE1\":\"value1\"                   // optional custom
+    product-level attributes\r
+
+    \         }\r
+
+    \      }\r
+
+    \   ]\r
+
+    }"
+order: 8000

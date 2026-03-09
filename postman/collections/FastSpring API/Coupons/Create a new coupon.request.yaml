@@ -1,0 +1,71 @@
+$kind: http-request
+url: https://api.fastspring.com/coupons
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \    \"coupon\": \"my-coupon-id\",\t\t\t\t// required, alphanumeric coupon
+    ID\r
+
+    \    \"discount\": {\t\t\t\t\t\t\t\r
+
+    \    \t\"type\": \"flat\", \t\t\t\t\t// required, Valid values for type are
+    flat and percent. Flat expects object with amount off per currency.\r
+
+    \    \t\"amount\": {\r
+
+    \    \t\t\"USD\": 8,\t\r
+
+    \    \t\t\"EUR\": 1\r
+
+    \    \t}\r
+
+    \    },\r
+
+    \    \"combine\": true,\t\t\t\t\t\t// optional, Corresponds to \"combine
+    discounts\" in the interface. Default: false. If enabled will apply coupon
+    discount in addition to the product discount.\r
+
+    \    \"reason\": {\t\t\t\t\t\t\t\t// optional, Discount reason visible to
+    end users, object with all languages you want to enter it in.\r
+
+    \    \t\"en\": \"Your Reason\", \r
+
+    \    \t\"de\": \"Your Reason in German\"\r
+
+    \    },\r
+
+    \    \"limit\": 10,\t\t\t\t\t\t\t// optional, Usage limit for each coupon
+    code\r
+
+    \    \"available\": {\t\t\t\t\t\t\t// optional, Accepts timestamp in
+    milliseconds and datetime string  e.g. \"2015-09-01 08:00\" to set \"start
+    time\" or \"end time\"\r
+
+    \    \t\"start\":\"2019-12-01\", \r
+
+    \    \t\"end\": \"2019-12-31\"\r
+
+    \    },\r
+
+    \    \"codes\": [\t\t\t\t\t\t\t\t//optional, Array of coupon codes which
+    trigger this discount\r
+
+    \    \t\"code1\", \r
+
+    \    \t\"code2\", \r
+
+    \    \t\"code3\"\r
+
+    \    ], \r
+
+    \    \"products\": [\t\t\t\t\t\t\t// optional, Array of product ids to which
+    this discount applies. If not provided applies to all products.\r
+
+    \    \t\"base\"\r
+
+    \    ] \r
+
+    }"
+order: 1000

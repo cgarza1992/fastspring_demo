@@ -1,0 +1,25 @@
+$kind: http-request
+url: https://api.fastspring.com/subscriptions/
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \    \"subscriptions\": [\r
+
+    \t{\r
+
+    \        \"subscription\": \"{subscription_id}\",\t\t// subscription ID to
+    be updated\r
+
+    \        \"product\": \"{subscription_product_path}\",\t// product path of
+    the new product\r
+
+    \        \"quantity\": 1\r
+
+    \    }\r
+
+    \  ]\r
+
+    }\r\n"
+order: 4000

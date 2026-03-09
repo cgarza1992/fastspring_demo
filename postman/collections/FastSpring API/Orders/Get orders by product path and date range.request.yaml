@@ -1,0 +1,11 @@
+$kind: http-request
+url: https://api.fastspring.com/orders?begin=2019-01-01&end=2019-12-31&products={product_path}
+method: GET
+queryParams:
+  begin: 2019-01-01
+  end: 2019-12-31
+  products: "{product_path}"
+body:
+  type: text
+  content: ""
+order: 5000

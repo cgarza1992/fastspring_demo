@@ -1,0 +1,9 @@
+$kind: http-request
+url: https://api.fastspring.com/accounts?email=j.doe@fastspring.com
+method: GET
+queryParams:
+  email: j.doe@fastspring.com
+body:
+  type: text
+  content: ""
+order: 5000

@@ -15,7 +15,7 @@ interface ProductsSectionProps {
 
 export default function ProductsSection({ products, loading, onBuyNow }: ProductsSectionProps) {
   return (
-    <section className="py-20 px-6">
+    <section className="py-20 px-6" id="pricing">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <p className="text-cyan-400 font-semibold mb-2 uppercase tracking-wider text-sm">Choose Your Plan</p>

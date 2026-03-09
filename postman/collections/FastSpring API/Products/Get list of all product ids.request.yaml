@@ -1,0 +1,7 @@
+$kind: http-request
+url: https://api.fastspring.com/products/
+method: GET
+body:
+  type: text
+  content: ""
+order: 2000

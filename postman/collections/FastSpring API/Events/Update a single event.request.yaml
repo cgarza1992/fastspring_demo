@@ -1,0 +1,7 @@
+$kind: http-request
+url: https://api.fastspring.com/events/{event_id}
+method: POST
+body:
+  type: text
+  content: "{\r\n\t\"processed\":true\r\n}"
+order: 3000

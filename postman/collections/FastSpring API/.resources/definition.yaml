@@ -1,0 +1,8 @@
+$kind: collection
+auth:
+  - id: ""
+    type: basic
+    name: basic auth
+    credentials:
+      password: ""
+      username: ""

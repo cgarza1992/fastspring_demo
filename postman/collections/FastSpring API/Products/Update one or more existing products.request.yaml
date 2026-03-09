@@ -1,0 +1,150 @@
+$kind: http-request
+url: https://api.fastspring.com/products/
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \  \"products\": [\r
+
+    \    {\r
+
+    \      \"product\":
+    \"{product_path}\",                                                 //
+    Required. Must be a valid product path/ID: alphanumeric, all lower-case, no
+    special characters except dash \"-\", must be greater than two characters in
+    length\r
+
+    \      \"display\":
+    {                                                              // Required
+    at least in English\r
+
+    \        \"en\":
+    \"String\"                                                          \r
+
+    \      },\r
+
+    \      \"description\": {\r
+
+    \        \"summary\": {\r
+
+    \          \"en\":
+    \"String\"                                                        // This
+    field also supports Markdown.\r
+
+    \        },\r
+
+    \        \"action\": {\r
+
+    \          \"en\":
+    \"String\"                                                        \r
+
+    \        },\r
+
+    \        \"full\": {\r
+
+    \          \"en\":
+    \"String\"                                                        // This
+    field also supports Markdown.\r
+
+    \        }\r
+
+    \      },\r
+
+    \      \"fulfillment\": {\r
+
+    \        \"instructions\":{                                                        \
+    // Optional Post Order Instructions (e.g. for a 'thank you message' and
+    directions on how to register the product)\r
+
+    \          \"en\":\"String\",                                                        \
+    // This field also supports Markdown.\r
+
+    \          \"es\":\"String\"                                                         \
+    // This field also supports Markdown.\r
+
+    \        } \r
+
+    \      }, \r
+
+    \      \"image\":
+    \"https://d8y8nchqlnmka.cloudfront.net/NVaGM-nhSpQ/-FooqIP-R84/photio-imac-\
+    hero.png\",             // Product icon image\r
+
+    \      \"format\":
+    \"digital\",                                                      // Or
+    \"physical\" or \"digital-and-physical\"\r
+
+    \      \"sku\":
+    \"string\",                                                          //
+    Optional SKU ID string\r
+
+    \      \"attributes\":
+    {                                                           // Strings.
+    Custom key / value attributes that will be passed back once this product is
+    purchased \r
+
+    \        \"key1\": \"value1\",\r
+
+    \        \"key2\": \"value2\"\r
+
+    \      }, \r
+
+    \      \"pricing\": {\r
+
+    \        \"trial\":
+    2,                                                             // Days, only
+    needed if you are creating a subscription\r
+
+    \        \"interval\":
+    \"month\",                                                    // Or
+    \"adhoc\", \"day\", \"week\", \"year\", only needed if you are creating a
+    subscription\r
+
+    \        \"intervalLength\":
+    1,                                                    // Required if
+    \"interval\" is specified and is not \"adhoc\"\r
+
+    \        \"quantityBehavior\":
+    \"allow\",                                            // Or \"lock\" or
+    \"hide\"\r
+
+    \        \"quantityDefault\": 1,\r
+
+    \        \"price\": {\r
+
+    \          \"USD\":
+    14.95,                                                         // Currency
+    must be enabled in the Store Settings\r
+
+    \          \"EUR\": 10.99\r
+
+    \        },\r
+
+    \        \"quantityDiscounts\":
+    {                                                  // \"Volume Discounts\".
+    Support perentage or \"amount off\". Mixed values are not supported. \r
+
+    \          10:
+    25.00                                                            //
+    Quantity: percentage off. Everything more than 10 units will be discounted
+    by 25%.\r
+
+    \        },\r
+
+    \        \"discountReason\": {\r
+
+    \          \"en\": \"The Reason\"\r
+
+    \        },\r
+
+    \        \"discountDuration\": 1\r
+
+    \      }\r
+
+    \    }\r
+
+    \  ]\r
+
+    }"
+order: 4000

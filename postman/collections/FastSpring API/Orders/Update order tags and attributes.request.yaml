@@ -1,0 +1,55 @@
+$kind: http-request
+url: https://api.fastspring.com/orders/
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \  \"orders\": [\r
+
+    \    {\r
+
+    \      \"order\": \"{order_id}\",                                // order ID
+    to be updated\r
+
+    \      \"tags\": {\r
+
+    \        \"TagKey1\":
+    \"TagValue1\",                                         // order tag to be
+    added or updated\r
+
+    \        \"TagKey2\":
+    \"TagValue2\"                                          // order tag to be
+    added or updated\r
+
+    \      },\r
+
+    \      \"items\": [\r
+
+    \        {\r
+
+    \          \"product\": \"product_id}\",                                //
+    product path of the product whose attributes will be added or updated\r
+
+    \          \"attributes\": {\r
+
+    \            \"AttributeKey1\":
+    \"AttributeValue1\",                         // attribute to be added or
+    updated\r
+
+    \            \"AttributeKey2\":
+    \"AttributeValue2\"                          // attribute to be added or
+    updated\r
+
+    \          }\r
+
+    \        }\r
+
+    \      ]\r
+
+    \    }\r
+
+    \  ]\r
+
+    }"
+order: 9000

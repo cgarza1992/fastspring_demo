@@ -1,0 +1,7 @@
+$kind: http-request
+url: https://api.fastspring.com/coupons/{coupon_id}/codes
+method: GET
+body:
+  type: text
+  content: ""
+order: 5000

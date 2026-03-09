@@ -1,0 +1,7 @@
+$kind: http-request
+url: https://api.fastspring.com/accounts/{account_id}/authenticate
+method: GET
+body:
+  type: text
+  content: ""
+order: 6000

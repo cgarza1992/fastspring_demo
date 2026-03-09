@@ -1,0 +1,9 @@
+$kind: http-request
+url: https://api.fastspring.com/events/processed?days=5
+method: GET
+queryParams:
+  days: "5"
+body:
+  type: text
+  content: ""
+order: 1000

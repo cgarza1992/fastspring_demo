@@ -1,0 +1,21 @@
+$kind: http-request
+url: https://api.fastspring.com/subscriptions/{subscription_id}
+method: POST
+body:
+  type: text
+  content: "{  \r
+
+    \   \"subscriptions\":[  \r
+
+    \      {  \r
+
+    \         \"subscription\":\"{subscription_id}\",\r
+
+    \         \"deactivation\":null\r
+
+    \      }\r
+
+    \   ]\r
+
+    }\r\n"
+order: 12000

@@ -1,0 +1,9 @@
+$kind: http-request
+url: https://api.fastspring.com/subscriptions/{subscription_id}?billingPeriod=0
+method: DELETE
+queryParams:
+  billingPeriod: "0"
+body:
+  type: text
+  content: ""
+order: 11000

@@ -1,0 +1,9 @@
+$kind: http-request
+url: https://api.fastspring.com/orders?returns=true
+method: GET
+queryParams:
+  returns: "true"
+body:
+  type: text
+  content: ""
+order: 7000

@@ -1,0 +1,7 @@
+$kind: http-request
+url: https://api.fastspring.com/coupons/{coupon_id}/codes
+method: DELETE
+body:
+  type: text
+  content: ""
+order: 6000

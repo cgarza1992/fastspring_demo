@@ -1,0 +1,9 @@
+$kind: collection
+name: FastSpring API
+auth:
+  type: basic
+  credentials:
+    - key: username
+      value: '{{username}}'
+    - key: password
+      value: '{{password}}'

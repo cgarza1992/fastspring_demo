@@ -1,0 +1,48 @@
+$kind: http-request
+url: https://api.fastspring.com/subscriptions/
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \t\"subscriptions\": [\r
+
+    \t\t{\r
+
+    \t\t\t\"subscription\": \"{subscription_id}\",\r
+
+    \t\t\t\"addons\": [\r
+
+    \t\t\t\t{\r
+
+    \t\t\t\t\t\"product\": \"{subscription_addon_path}\",\r
+
+    \t\t\t\t\t\"quantity\": 2,            \t\t\t\t\t// update quantity\r
+
+    \t\t\t\t\t\"pricing\":{          \r
+
+    \t\t\t\t\t\t\"price\": {\"USD\":10},     \t\t\t\t// update
+    pricing            \r
+
+    \t\t\t\t\t\t\"discount\":{                \t\t\t// update discount\r
+
+    \t\t\t\t\t\t\t\"type\":\"percent\",\r
+
+    \t\t\t\t\t\t\t\"percentage\":10,\r
+
+    \t\t\t\t\t\t\t\"duration\":2\r
+
+    \t\t\t\t\t\t}\r
+
+    \t\t\t\t\t}\r
+
+    \t\t\t\t}\r
+
+    \t\t\t]\r
+
+    \t\t}\r
+
+    \t]\r
+
+    }"
+order: 7000

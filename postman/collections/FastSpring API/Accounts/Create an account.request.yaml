@@ -1,0 +1,34 @@
+$kind: http-request
+url: https://api.fastspring.com/accounts
+method: POST
+body:
+  type: text
+  content: "{  \r
+
+    \   \"contact\":{  \r
+
+    \      \"first\":\"John\",\t\t\t\t\t//First Name\r
+
+    \      \"last\":\"Doe\",     \t\t\t\t//Last Name\r
+
+    \      \"email\":\"j.doe@fastspring.com\",\t//Email Address\r
+
+    \      \"company\":\"FastSpring\",   \t\t//Company Optional\r
+
+    \      \"phone\":\"402-402-4024\"    \t\t//Phone Number Optional\r
+
+    \   },\r
+
+    \   \"language\":\"en\",         \t\t\t//ISO valid language code\r
+
+    \   \"country\":\"US\",          \t\t\t//ISO valid country code\r
+
+    \   \"lookup\":{               \r
+
+    \      \"custom\":\"customKey\"  \t\t\t//a-zA-Z0-9_- String with length
+    larger than or equals to 4\r
+
+    \   }\r
+
+    }"
+order: 3000

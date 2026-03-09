@@ -1,6 +1,11 @@
 # Use this workspace to collaborate
 workspace:
-  id: 4d7e71ac-479d-47cb-8cb5-e807173a86fd
+  id: ""
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+cloudResources:
+  collections:
+    ../postman/collections/FastSpring API: d44b799b-6e76-46a5-90c4-58d17fae4bf5
 
 # All resources in the `postman/` folder are automatically registered in Local View.
 # Point to additional files outside the `postman/` folder to register them individually. Example:

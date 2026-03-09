@@ -1,0 +1,9 @@
+$kind: http-request
+url: https://api.fastspring.com/orders?end=2019-12-31
+method: GET
+queryParams:
+  end: 2019-12-31
+body:
+  type: text
+  content: ""
+order: 6000

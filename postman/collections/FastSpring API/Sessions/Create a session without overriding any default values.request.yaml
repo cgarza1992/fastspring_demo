@@ -1,0 +1,29 @@
+$kind: http-request
+url: https://api.fastspring.com/sessions/
+method: POST
+body:
+  type: text
+  content: "{\r
+
+    \   \"account\": \"{account_id}\",                                        //
+    FastSpring-generated customer account ID (previously established via a prior
+    order from this customer, or via the /accounts endpoint)\r
+
+    \   \"items\": [\r
+
+    \       {\r
+
+    \           \"product\":
+    \"{product_path}\",                                                  //
+    product path of the product(s) to be included in the order\r
+
+    \           \"quantity\":
+    1                                                       // quantity of the
+    current product to be included in the order\r
+
+    \       }\r
+
+    \   ]\r
+
+    }"
+order: 1000
