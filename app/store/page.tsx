@@ -61,6 +61,13 @@ export default function StorePage() {
     const handler = (event: MessageEvent) => {
       if (event.data?.type === "FS_PRICES") {
         setLocalizedPrices(event.data.prices);
+        sessionStorage.setItem("fs_localized_prices", JSON.stringify(
+          Object.fromEntries(
+            Object.entries(event.data.prices as Record<string, { price: string }>).map(
+              ([k, v]) => [k, v.price]
+            )
+          )
+        ));
       }
     };
     window.addEventListener("message", handler);

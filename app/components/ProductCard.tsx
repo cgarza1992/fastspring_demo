@@ -6,6 +6,7 @@ interface ProductCardProps {
     pricing?: { price: { USD: number } };
   };
   onBuyNow: (productPath: string) => void;
+  localizedPrice?: string;
 }
 
 // Map product names to a tier style so each card feels distinct
@@ -32,7 +33,7 @@ function getTierStyle(name: string): { gradient: string; icon: string; badge: st
   };
 }
 
-export default function ProductCard({ product, onBuyNow }: ProductCardProps) {
+export default function ProductCard({ product, onBuyNow, localizedPrice }: ProductCardProps) {
   const tier = getTierStyle(product.display.en);
 
   return (
@@ -65,7 +66,7 @@ export default function ProductCard({ product, onBuyNow }: ProductCardProps) {
           <p className="text-slate-400 text-sm mb-1">Starting at</p>
           <div className="flex items-baseline gap-1">
             <span className="text-5xl font-bold text-white">
-              ${product.pricing?.price?.USD ?? '0'}
+              {localizedPrice ?? `$${product.pricing?.price?.USD ?? '0'}`}
             </span>
             <span className="text-slate-400">/mo</span>
           </div>

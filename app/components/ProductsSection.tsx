@@ -11,9 +11,10 @@ interface ProductsSectionProps {
   products: Product[];
   loading: boolean;
   onBuyNow: (productPath: string) => void;
+  localizedPrices: Record<string, string>;
 }
 
-export default function ProductsSection({ products, loading, onBuyNow }: ProductsSectionProps) {
+export default function ProductsSection({ products, loading, onBuyNow, localizedPrices }: ProductsSectionProps) {
   return (
     <section className="py-20 px-6" id="pricing">
       <div className="max-w-7xl mx-auto">
@@ -36,10 +37,11 @@ export default function ProductsSection({ products, loading, onBuyNow }: Product
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {products.map((product, index) => (
-            <ProductCard 
-              key={index} 
-              product={product} 
+            <ProductCard
+              key={index}
+              product={product}
               onBuyNow={onBuyNow}
+              localizedPrice={localizedPrices[product.product]}
             />
           ))}
         </div>

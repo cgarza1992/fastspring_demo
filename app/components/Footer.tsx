@@ -6,9 +6,7 @@ export default function Footer() {
           {/* Brand column */}
           <div className="md:col-span-1">
             <div className="mb-3">
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                DevMetrics
-              </span>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{"DevMetrics"}</span>
               <p className="text-xs text-slate-500 mt-0.5">Powered by FastSpring</p>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">

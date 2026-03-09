@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProductsSection from "./components/ProductsSection";
@@ -41,15 +41,36 @@ interface Product {
   image?: string;
 }
 
+const pricingIframe = `<!DOCTYPE html><html><head></head><body>
+  <script
+    id="fsc-api"
+    src="https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js"
+    type="text/javascript"
+    data-storefront="fastspringpoc.test.onfastspring.com/embedded-store-1"
+    data-data-callback="onFSData">
+  </script>
+  <script>
+    function onFSData(data) {
+      if (!data || !data.groups) return;
+      var prices = {};
+      data.groups.forEach(function(group) {
+        (group.items || []).forEach(function(item) {
+          if (item.path && item.price) prices[item.path] = item.price;
+        });
+      });
+      if (Object.keys(prices).length > 0) {
+        window.parent.postMessage({ type: 'FS_PRICES', prices: prices }, '*');
+      }
+    }
+  </script>
+</body></html>`;
+
 export default function Home() {
-  // Grab our fast spring data and save it into state.
+  const pricingIframeRef = useRef<HTMLIFrameElement>(null);
   const [fastspringData, setFastspringData] = useState<Record<string, unknown> | null>(null);
-
-  // Grab our product data and save it into state.
   const [products, setProducts] = useState<Product[]>([]);
-
-  // Track if we are still fetching data.
   const [loading, setLoading] = useState(true);
+  const [localizedPrices, setLocalizedPrices] = useState<Record<string, string>>({});
 
 
   const handleBuyNow = (productPath: string) => {
@@ -64,13 +85,23 @@ export default function Home() {
     }
   }
 
+  // Receive localized prices from the hidden pricing iframe
+  useEffect(() => {
+    const handler = (event: MessageEvent) => {
+      if (event.data?.type === "FS_PRICES") {
+        setLocalizedPrices(event.data.prices);
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
+
+  // Show success notification on completed order
   useEffect(() => {
     const handler = (e: CustomEvent) => {
-      console.log("[FastSpring] checkout event:", e.detail);
-      // Only set data if it contains order information
-      if (e.detail && typeof e.detail === 'object' && ('order' in e.detail || 'reference' in e.detail)) {
-        setFastspringData(e.detail);
-        // Auto-hide notification after 5 seconds
+      const detail = e.detail;
+      if (detail && typeof detail === 'object' && ('order' in detail || 'reference' in detail)) {
+        setFastspringData(detail);
         const timer = setTimeout(() => setFastspringData(null), 5000);
         return () => clearTimeout(timer);
       }
@@ -126,13 +157,19 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
       <Header />
       <Hero />
-      <ProductsSection products={products} loading={loading} onBuyNow={handleBuyNow} />
+      <ProductsSection products={products} loading={loading} onBuyNow={handleBuyNow} localizedPrices={localizedPrices} />
       <FeaturesSection />
       <div className="max-w-6xl mx-auto px-4 py-8">
         <EventLog />
       </div>
       <Footer />
       <SuccessNotification show={fastspringData !== null} />
+      <iframe
+        ref={pricingIframeRef}
+        srcDoc={pricingIframe}
+        style={{ display: "none" }}
+        title="pricing-data"
+      />
     </main>
   );
 }
