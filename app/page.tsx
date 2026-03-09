@@ -62,11 +62,30 @@ const pricingIframe = `<!DOCTYPE html><html><head></head><body>
         window.parent.postMessage({ type: 'FS_PRICES', prices: prices }, '*');
       }
     }
+
+    // Listen for product paths from the parent so we can add them to the SBL
+    // session and trigger onFSData with real localized prices.
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SET_PRICING_PRODUCTS') {
+        var paths = event.data.products || [];
+        var tryAdd = function() {
+          if (window.fastspring && window.fastspring.builder) {
+            paths.forEach(function(path) {
+              fastspring.builder.add(path);
+            });
+          } else {
+            setTimeout(tryAdd, 100);
+          }
+        };
+        tryAdd();
+      }
+    });
   </script>
 </body></html>`;
 
 export default function Home() {
   const pricingIframeRef = useRef<HTMLIFrameElement>(null);
+  const productPathsRef = useRef<string[]>([]);
   const [fastspringData, setFastspringData] = useState<Record<string, unknown> | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -152,6 +171,17 @@ export default function Home() {
         const allProducts = productDetails.flatMap((response) => response.products || []);
         setProducts(allProducts);
         setLoading(false);
+
+        // Send product paths to the hidden pricing iframe so its SBL session
+        // gets populated and onFSData fires with localized prices.
+        const paths = allProducts.map((p: Product) => p.product);
+        productPathsRef.current = paths;
+        if (paths.length > 0 && pricingIframeRef.current?.contentWindow) {
+          pricingIframeRef.current.contentWindow.postMessage(
+            { type: 'SET_PRICING_PRODUCTS', products: paths },
+            '*'
+          );
+        }
       })
       .catch((error) => {
         console.error('[API] Error: ', error);
@@ -175,6 +205,15 @@ export default function Home() {
         srcDoc={pricingIframe}
         style={{ display: "none" }}
         title="pricing-data"
+        onLoad={() => {
+          const paths = productPathsRef.current;
+          if (paths.length > 0 && pricingIframeRef.current?.contentWindow) {
+            pricingIframeRef.current.contentWindow.postMessage(
+              { type: 'SET_PRICING_PRODUCTS', products: paths },
+              '*'
+            );
+          }
+        }}
       />
     </main>
   );
