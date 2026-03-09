@@ -113,8 +113,14 @@ export default function Home() {
   useEffect(() => {
     const script = document.createElement('script');
 
-    // Point to FastSpring's SBL library. 
+    // Required ID so FastSpring initializes window.fastspring.builder
+    script.id = 'fsc-api';
+
+    // Point to FastSpring's SBL library.
     script.src = 'https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js';
+
+    // Storefront to connect to
+    script.setAttribute('data-storefront', process.env.NEXT_PUBLIC_FASTSPRING_STOREFRONT || '');
 
     // Load our script asynchronously.
     script.async = true;

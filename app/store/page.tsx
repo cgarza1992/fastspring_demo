@@ -77,13 +77,30 @@ export default function StorePage() {
   const handleAddProduct = (productId: string) => {
     console.log("[StorePage] Adding product:", productId);
     setSelectedProducts([...selectedProducts, productId]);
-    
-    // Send to iframe
     if (iframeRef.current?.contentWindow) {
       iframeRef.current.contentWindow.postMessage(
         { type: "ADD_PRODUCT", productPath: productId },
         "*"
       );
+    }
+  };
+
+  const handleRemoveProduct = (productId: string) => {
+    console.log("[StorePage] Removing product:", productId);
+    setSelectedProducts(selectedProducts.filter((id) => id !== productId));
+    if (iframeRef.current?.contentWindow) {
+      iframeRef.current.contentWindow.postMessage(
+        { type: "REMOVE_PRODUCT", productPath: productId },
+        "*"
+      );
+    }
+  };
+
+  const handleToggleProduct = (productId: string) => {
+    if (selectedProducts.includes(productId)) {
+      handleRemoveProduct(productId);
+    } else {
+      handleAddProduct(productId);
     }
   };
 
@@ -161,7 +178,7 @@ export default function StorePage() {
                 if (event.data.type === 'ADD_PRODUCT') {
                     const productPath = event.data.productPath;
                     console.log('[Iframe] Received ADD_PRODUCT message for:', productPath);
-                    
+
                     const tryAdd = () => {
                         if (window.fastspring && window.fastspring.builder) {
                             console.log('[Iframe] Adding product:', productPath);
@@ -172,6 +189,21 @@ export default function StorePage() {
                         }
                     };
                     tryAdd();
+                }
+
+                if (event.data.type === 'REMOVE_PRODUCT') {
+                    const productPath = event.data.productPath;
+                    console.log('[Iframe] Received REMOVE_PRODUCT message for:', productPath);
+
+                    const tryRemove = () => {
+                        if (window.fastspring && window.fastspring.builder) {
+                            console.log('[Iframe] Removing product:', productPath);
+                            fastspring.builder.remove(productPath);
+                        } else {
+                            setTimeout(tryRemove, 50);
+                        }
+                    };
+                    tryRemove();
                 }
             });
         </script>
@@ -217,7 +249,7 @@ export default function StorePage() {
                   return (
                     <div
                       key={product.product}
-                      onClick={() => handleAddProduct(product.product)}
+                      onClick={() => handleToggleProduct(product.product)}
                       className={`group relative rounded-xl border p-5 cursor-pointer transition-all duration-200 ${
                         isSelected
                           ? "border-cyan-400/60 bg-cyan-500/5"
@@ -226,11 +258,15 @@ export default function StorePage() {
                     >
                       {/* Selected indicator */}
                       {isSelected && (
-                        <span className="absolute top-4 right-4 flex items-center gap-1.5 text-cyan-400 text-xs font-semibold">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span className="absolute top-4 right-4 flex items-center gap-1.5 text-xs font-semibold group-hover:text-red-400 text-cyan-400 transition-colors">
+                          <svg className="w-4 h-4 group-hover:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
-                          Added
+                          <svg className="w-4 h-4 hidden group-hover:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                          <span className="group-hover:hidden">Added</span>
+                          <span className="hidden group-hover:inline">Remove</span>
                         </span>
                       )}
 
