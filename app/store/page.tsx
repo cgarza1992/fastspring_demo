@@ -13,11 +13,17 @@ interface Product {
   pricing?: { price: { USD: number } };
 }
 
+interface LocalizedPrice {
+  price: string;
+  currency: string;
+}
+
 export default function StorePage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [localizedPrices, setLocalizedPrices] = useState<Record<string, LocalizedPrice>>({});
 
   // Fetch product paths and then get full details
   useEffect(() => {
@@ -48,6 +54,17 @@ export default function StorePage() {
       .finally(() => {
         setLoading(false);
       });
+  }, []);
+
+  // Listen for localized pricing posted from the iframe's onFSData callback
+  useEffect(() => {
+    const handler = (event: MessageEvent) => {
+      if (event.data?.type === "FS_PRICES") {
+        setLocalizedPrices(event.data.prices);
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
   }, []);
 
   const handleAddProduct = (productId: string) => {
@@ -98,7 +115,8 @@ export default function StorePage() {
             id="fsc-api"
             src="https://sbl.onfastspring.com/sbl/1.0.6/fastspring-builder.min.js"
             type="text/javascript"
-            data-storefront="fastspringpoc.test.onfastspring.com/embedded-store-1">
+            data-storefront="fastspringpoc.test.onfastspring.com/embedded-store-1"
+            data-data-callback="onFSData">
         </script>
         
         <div id="fsc-embedded-checkout-container"></div>
@@ -106,6 +124,20 @@ export default function StorePage() {
         <script>
             console.log('[Iframe] Initialized');
             let fastspringReady = false;
+
+            function onFSData(data) {
+                if (!data || !data.groups) return;
+                const prices = {};
+                data.groups.forEach(function(group) {
+                    if (group.path && group.display && group.price !== undefined) {
+                        prices[group.path] = {
+                            price: group.display,
+                            currency: group.currency || ''
+                        };
+                    }
+                });
+                window.parent.postMessage({ type: 'FS_PRICES', prices: prices }, '*');
+            }
 
             window.addEventListener('load', function() {
                 console.log('[Iframe] Window loaded');
@@ -206,10 +238,12 @@ export default function StorePage() {
                         </div>
                       </div>
 
-                      {product.pricing?.price?.USD && (
+                      {(localizedPrices[product.product] || product.pricing?.price?.USD) && (
                         <div className="mt-4 flex items-baseline gap-1">
                           <span className="text-2xl font-bold text-white">
-                            ${product.pricing.price.USD.toFixed(2)}
+                            {localizedPrices[product.product]
+                              ? localizedPrices[product.product].price
+                              : `$${product.pricing!.price.USD.toFixed(2)}`}
                           </span>
                           <span className="text-slate-400 text-sm">/mo</span>
                         </div>
