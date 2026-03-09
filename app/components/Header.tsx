@@ -11,9 +11,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="hover:opacity-80 transition-opacity">
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              DevMetrics
-            </h1>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{"DevMetrics"}</h1>
             <p className="text-xs text-slate-400">Powered by FastSpring</p>
           </div>
         </Link>
