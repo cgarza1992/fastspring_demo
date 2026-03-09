@@ -27,11 +27,11 @@ export async function POST(request: NextRequest) {
             );
         }
     }
-    
+
     // Parse and store the event
     try {
         const body = JSON.parse(rawBody);
-        
+
         // FastSpring sends events in an array
         if (!body.events || !Array.isArray(body.events)) {
             return NextResponse.json(

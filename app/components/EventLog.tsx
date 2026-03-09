@@ -10,9 +10,9 @@ interface Event {
 }
 
 function eventColor(type: string): string {
+  if (type.includes('cancel') || type.includes('refund') || type.includes('failed') || type.includes('failure') || type.includes('overdue')) return 'text-red-400';
   if (type.includes('order') || type.includes('purchase')) return 'text-green-400';
   if (type.includes('subscription')) return 'text-cyan-400';
-  if (type.includes('cancel') || type.includes('refund')) return 'text-red-400';
   return 'text-blue-400';
 }
 
