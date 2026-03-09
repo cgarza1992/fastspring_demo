@@ -250,7 +250,7 @@ export default function StorePage() {
                     <div
                       key={product.product}
                       onClick={() => handleToggleProduct(product.product)}
-                      className={`group relative rounded-xl border p-5 cursor-pointer transition-all duration-200 ${
+                      className={`clickable-card group relative rounded-xl border p-5 transition-all duration-200 ${
                         isSelected
                           ? "border-cyan-400/60 bg-cyan-500/5"
                           : "border-slate-700/50 bg-slate-800/30 hover:border-cyan-400/40 hover:bg-slate-800/50"
